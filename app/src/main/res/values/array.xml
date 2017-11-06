@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="initial_from_currencies">
+        <item>ETC</item>
+        <item>LTC</item>
+        <item>USD</item>
+        <item>GBP</item>
+    </array>
+
+    <array name="initial_to_currencies">
+        <item>BTC</item>
+        <item>SYP</item>
+        <item>ANS</item>
+        <item>CDT</item>
+    </array>
+</resources>

@@ -17,34 +17,40 @@ import example.stockdemo.R;
 
 public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHolder>
 {
-    private final List<ExchangeItem> data = new ArrayList<>();
+    private final List<ExchangeItem> m_data = new ArrayList<>();
+    private final OnItemClickListener m_listener;
+
+    public ExchangeRateAdapter(OnItemClickListener listener)
+    {
+        m_listener = listener;
+    }
 
     @Override
     public ExchangeRateViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.exchange_item, parent, false);
-        ExchangeRateViewHolder vh = new ExchangeRateViewHolder(v);
-        return vh;
+        return new ExchangeRateViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ExchangeRateViewHolder holder, int position)
     {
-        ExchangeItem exchangeItem = data.get(position);
-        holder.setCurrencies(exchangeItem.getFromCurrencyCode() + "/" + exchangeItem.getToCurrencyCode());
-        holder.setExchange_rate(exchangeItem.getExchangeRate());
+        ExchangeItem exchangeItem = m_data.get(position);
+        holder.setCurrencies(exchangeItem.getCurrencyCodePair().getFromCurrencyCode() + "/" + exchangeItem.getCurrencyCodePair().getToCurrencyCode());
+        holder.setExchangeRate(exchangeItem.getExchangeRate());
+        holder.click(m_data.get(position), m_listener);
     }
 
     @Override
     public int getItemCount()
     {
-        return data.size();
+        return m_data.size();
     }
 
-    public void add(ExchangeItem stockSymbol)
+    public void add(ExchangeItem exchangeItem)
     {
-        this.data.add(stockSymbol);
-        notifyItemInserted(data.size() - 1);
+        this.m_data.add(exchangeItem);
+        notifyItemInserted(m_data.size() - 1);
     }
 
     class ExchangeRateViewHolder extends RecyclerView.ViewHolder
@@ -61,14 +67,23 @@ public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHo
             ButterKnife.bind(this, itemView);
         }
 
+        public void click(final ExchangeItem exchangeItem, final OnItemClickListener listener)
+        {
+            itemView.setOnClickListener(view -> listener.onClick(exchangeItem));
+        }
+
         public void setCurrencies(String currencies)
         {
             this.currencies.setText(currencies);
         }
 
-        public void setExchange_rate(String exchange_rate)
+        public void setExchangeRate(String exchange_rate)
         {
             this.exchange_rate.setText(exchange_rate);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onClick(ExchangeItem item);
     }
 }

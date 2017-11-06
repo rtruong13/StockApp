@@ -5,88 +5,87 @@ import com.google.gson.annotations.SerializedName;
 public class RealTimeCurrencyExchangeRate
 {
     @SerializedName("1. From_Currency Code")
-    private String fromCurrencyCode;
+    private String m_fromCurrencyCode;
     @SerializedName("2. From_Currency Name")
-    private String fromCurrencyName;
+    private String m_fromCurrencyName;
     @SerializedName("3. To_Currency Code")
-    private String toCurrencyCode;
+    private String m_toCurrencyCode;
     @SerializedName("4. To_Currency Name")
-    private String toCurrencyName;
+    private String m_toCurrencyName;
     @SerializedName("5. Exchange Rate")
-    private String exchangeRate;
+    private String m_exchangeRate;
     @SerializedName("6. Last Refreshed")
-    private String lastRefreshed;
+    private String m_lastRefreshed;
     @SerializedName("7. Time Zone")
-    private String timeZone;
+    private String m_timeZone;
 
     public String getFromCurrencyCode()
     {
-        return fromCurrencyCode;
+        return m_fromCurrencyCode;
     }
 
     public void setFromCurrencyCode(String fromCurrencyCode)
     {
-        this.fromCurrencyCode = fromCurrencyCode;
+        this.m_fromCurrencyCode = fromCurrencyCode;
     }
 
     public String getFromCurrencyName()
     {
-        return fromCurrencyName;
+        return m_fromCurrencyName;
     }
 
     public void setFromCurrencyName(String fromCurrencyName)
     {
-        this.fromCurrencyName = fromCurrencyName;
+        this.m_fromCurrencyName = fromCurrencyName;
     }
 
     public String getToCurrencyCode()
     {
-        return toCurrencyCode;
+        return m_toCurrencyCode;
     }
 
     public void setToCurrencyCode(String toCurrencyCode)
     {
-        this.toCurrencyCode = toCurrencyCode;
+        this.m_toCurrencyCode = toCurrencyCode;
     }
 
     public String getToCurrencyName()
     {
-        return toCurrencyName;
+        return m_toCurrencyName;
     }
 
     public void setToCurrencyName(String toCurrencyName)
     {
-        this.toCurrencyName = toCurrencyName;
+        this.m_toCurrencyName = toCurrencyName;
     }
 
     public String getExchangeRate()
     {
-        return exchangeRate;
+        return m_exchangeRate;
     }
 
     public void setExchangeRate(String exchangeRate)
     {
-        this.exchangeRate = exchangeRate;
+        this.m_exchangeRate = exchangeRate;
     }
 
     public String getLastRefreshed()
     {
-        return lastRefreshed;
+        return m_lastRefreshed;
     }
 
     public void setLastRefreshed(String lastRefreshed)
     {
-        this.lastRefreshed = lastRefreshed;
+        this.m_lastRefreshed = lastRefreshed;
     }
 
     public String getTimeZone()
     {
-        return timeZone;
+        return m_timeZone;
     }
 
     public void setTimeZone(String timeZone)
     {
-        this.timeZone = timeZone;
+        this.m_timeZone = timeZone;
     }
-
 }

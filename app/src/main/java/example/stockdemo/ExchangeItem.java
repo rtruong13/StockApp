@@ -1,68 +1,58 @@
 package example.stockdemo;
 
-import android.graphics.Color;
+import java.io.Serializable;
 
-import example.stockdemo.model.dto.RealTimeCurrencyExchangeRate;
+import example.stockdemo.model.dto.CurrencyCodePair;
 
-public class ExchangeItem
+public class ExchangeItem implements Serializable
 {
-    private final String toCurrencyName, fromCurrencyName, toCurrencyCode, fromCurrencyCode, exchangeRate, lastRefreshed, timeZone;
+    private final String m_toCurrencyName, m_fromCurrencyName, m_exchangeRate, m_lastRefreshed, m_timeZone;
+    private final CurrencyCodePair m_currencyCodePair;
 
-    public ExchangeItem(String toCurrency, String fromCurrency, String toCurrencyCode, String fromCurrencyCode,
+    public ExchangeItem(String toCurrency, String fromCurrency, CurrencyCodePair currencyCodePair,
                         String exchangeRate, String lastRefreshed, String timeZone)
     {
-        this.toCurrencyName = toCurrency;
-        this.fromCurrencyName = fromCurrency;
-        this.toCurrencyCode = toCurrencyCode;
-        this.fromCurrencyCode = fromCurrencyCode;
-        this.exchangeRate = exchangeRate;
-        this.lastRefreshed = lastRefreshed;
-        this.timeZone = timeZone;
-
+        this.m_currencyCodePair = currencyCodePair;
+        this.m_toCurrencyName = toCurrency;
+        this.m_fromCurrencyName = fromCurrency;
+        this.m_exchangeRate = exchangeRate;
+        this.m_lastRefreshed = lastRefreshed;
+        this.m_timeZone = timeZone;
     }
 
     public String getToCurrencyName()
     {
-        return toCurrencyName;
+        return m_toCurrencyName;
     }
 
     public String getFromCurrencyName()
     {
-        return fromCurrencyName;
+        return m_fromCurrencyName;
     }
 
-    public String getToCurrencyCode()
+    public CurrencyCodePair getCurrencyCodePair()
     {
-        return toCurrencyCode;
-    }
-
-    public String getFromCurrencyCode()
-    {
-        return fromCurrencyCode;
+        return m_currencyCodePair;
     }
 
     public String getExchangeRate()
     {
-        return exchangeRate;
+        return m_exchangeRate;
     }
 
     public String getLastRefreshed()
     {
-        return lastRefreshed;
+        return m_lastRefreshed;
     }
 
     public String getTimeZone()
     {
-        return timeZone;
-    }
-
-    public static ExchangeItem convertModelToItem(RealTimeCurrencyExchangeRate exchangeModel) {
-        return new ExchangeItem(exchangeModel.getToCurrencyCode(), exchangeModel.getFromCurrencyName(), exchangeModel.getToCurrencyCode(),
-            exchangeModel.getFromCurrencyCode(), exchangeModel.getExchangeRate(), exchangeModel.getLastRefreshed(), exchangeModel.getTimeZone());
+        return m_timeZone;
     }
 
     public static class Builder {
-        String toCurrencyName, fromCurrencyName, toCurrencyCode, fromCurrencyCode, exchangeRate, lastRefreshed, timeZone;
+        String m_toCurrencyName, m_fromCurrencyName, m_exchangeRate, m_lastRefreshed, m_timeZone;
+        CurrencyCodePair m_currencyCodePair;
 
         public Builder() {
 
@@ -70,47 +60,42 @@ public class ExchangeItem
 
         public ExchangeItem build() {
             return new ExchangeItem(
-                toCurrencyName,
-                fromCurrencyName,
-                toCurrencyCode,
-                fromCurrencyCode,
-                exchangeRate,
-                lastRefreshed,
-                timeZone);
+                m_toCurrencyName,
+                m_fromCurrencyName,
+                m_currencyCodePair,
+                m_exchangeRate,
+                m_lastRefreshed,
+                m_timeZone);
         }
 
         public ExchangeItem.Builder setToCurrencyName(String currencyName) {
-            this.toCurrencyCode = currencyName;
+            this.m_toCurrencyName = currencyName;
             return this;
         }
 
         public ExchangeItem.Builder setFromCurrencyName(String fromCurrencyName) {
-            this.fromCurrencyName = fromCurrencyName;
+            this.m_fromCurrencyName = fromCurrencyName;
             return this;
         }
 
-        public ExchangeItem.Builder setToCurrencyCode(String toCurrencyCode) {
-            this.toCurrencyCode = toCurrencyCode;
-            return this;
-        }
-
-        public ExchangeItem.Builder setFromCurrencyCode(String fromCurrencyCode) {
-            this.fromCurrencyCode = fromCurrencyCode;
+        public ExchangeItem.Builder setCurrencyCodePair(String fromCurrencyCode, String toCurrencyCode)
+        {
+            this.m_currencyCodePair = new CurrencyCodePair(fromCurrencyCode, toCurrencyCode);
             return this;
         }
 
         public ExchangeItem.Builder setExchangeRate(String exchangeRate) {
-            this.exchangeRate = exchangeRate;
+            this.m_exchangeRate = exchangeRate;
             return this;
         }
 
         public ExchangeItem.Builder setLastRefreshed(String lastRefreshed) {
-            this.lastRefreshed = lastRefreshed;
+            this.m_lastRefreshed = lastRefreshed;
             return this;
         }
 
         public ExchangeItem.Builder setTimeZone(String timeZone) {
-            this.timeZone = timeZone;
+            this.m_timeZone = timeZone;
             return this;
         }
     }

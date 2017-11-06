@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Exchange Rate</string>
     <string name="watchlist">Watchlist</string>
+    <string name="item_detail">item_detail</string>
+    <string name="add_exchange">Add Exchange</string>
+    <string name="currency_to">Currency To</string>
+    <string name="currency_from">Currency From</string>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
 </resources>

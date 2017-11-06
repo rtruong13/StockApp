@@ -1,27 +1,41 @@
 package example.stockdemo;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import example.stockdemo.adapter.ExchangeRateAdapter;
 import example.stockdemo.api.AlphaVantageService;
 import example.stockdemo.api.RetrofitAlphaVantageServiceFactory;
+import example.stockdemo.model.dto.CurrencyCodePair;
 import example.stockdemo.model.dto.CurrencyExchangeModel;
+import example.stockdemo.model.dto.RealTimeCurrencyExchangeRate;
 import example.stockdemo.utils.Constants;
-import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
 public class MainActivity extends AppCompatActivity
 {
-    @BindView(R.id.stock_recycler_view)
-    RecyclerView stockRecyclerView;
-
-    private ExchangeRateAdapter exchangeDataAdapter;
+    private AlphaVantageService m_alphaVantageService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -29,37 +43,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(this);
+        m_alphaVantageService = new RetrofitAlphaVantageServiceFactory().create();
 
-        initRecyclerView();
-
-        AlphaVantageService alphaVantageService = new RetrofitAlphaVantageServiceFactory().create();
-
-        alphaVantageService.getExchangeModel("CURRENCY_EXCHANGE_RATE", "BTC", "USD", Constants.API_KEY)
-            .subscribeOn(Schedulers.io())
-            .map(CurrencyExchangeModel::getRealtimeCurrencyExchangeRate)
-            .map(ExchangeItem::convertModelToItem)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(exchangeModel -> exchangeDataAdapter.add(exchangeModel));
-
-//        Observable.just(
-//            new ExchangeItem("BTC", "ETH"),
-//            new ExchangeItem("BTC", "USD"),
-//            new ExchangeItem("ETH", "LTC"))
-//            .subscribe(stockUpdate ->
-//            {
-//                Log.d("APP", "New Update " + stockUpdate.getToCurrencyName());
-//                exchangeDataAdapter.add(stockUpdate);
-//            });
+        RecyclerViewFragment fragment = new RecyclerViewFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.place_holder, fragment);
+        fragmentTransaction.commit();
     }
 
-    private void initRecyclerView()
+    public AlphaVantageService getAlphaVantageService()
     {
-        stockRecyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        exchangeDataAdapter = new ExchangeRateAdapter();
-        stockRecyclerView.setLayoutManager(layoutManager);
-        stockRecyclerView.setAdapter(exchangeDataAdapter);
+        return m_alphaVantageService;
     }
 }

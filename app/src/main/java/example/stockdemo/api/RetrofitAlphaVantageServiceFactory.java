@@ -13,12 +13,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class RetrofitAlphaVantageServiceFactory
 {
-    private HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor() //Turn off in production but in testing, it's good to see what we're doing
+    private HttpLoggingInterceptor m_interceptor = new HttpLoggingInterceptor() //Turn off in production but in testing, it's good to see what we're doing
         .setLevel(Level.BODY);
 
-    private OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-    private Retrofit retrofit = new Retrofit.Builder()
-        .client(okHttpClient)
+    private OkHttpClient m_okHttpClient = new OkHttpClient.Builder().addInterceptor(m_interceptor).build();
+    private Retrofit m_retrofit = new Retrofit.Builder()
+        .client(m_okHttpClient)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(Constants.BASE_URL)
@@ -30,6 +30,6 @@ public class RetrofitAlphaVantageServiceFactory
      */
     public AlphaVantageService create()
     {
-        return retrofit.create(AlphaVantageService.class);
+        return m_retrofit.create(AlphaVantageService.class);
     }
 }

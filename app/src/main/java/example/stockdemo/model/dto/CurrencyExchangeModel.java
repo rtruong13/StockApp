@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 public class CurrencyExchangeModel
 {
     @SerializedName("Realtime Currency Exchange Rate")
-    private RealTimeCurrencyExchangeRate realtimeCurrencyExchangeRate;
+    private RealTimeCurrencyExchangeRate m_realtimeCurrencyExchangeRate;
 
     public RealTimeCurrencyExchangeRate getRealtimeCurrencyExchangeRate() {
-        return realtimeCurrencyExchangeRate;
+        return m_realtimeCurrencyExchangeRate;
     }
 }
