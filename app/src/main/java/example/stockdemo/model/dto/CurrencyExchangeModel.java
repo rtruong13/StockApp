@@ -10,8 +10,4 @@ public class CurrencyExchangeModel
     public RealTimeCurrencyExchangeRate getRealtimeCurrencyExchangeRate() {
         return realtimeCurrencyExchangeRate;
     }
-
-    public void setRealtimeCurrencyExchangeRate(RealTimeCurrencyExchangeRate realtimeCurrencyExchangeRate) {
-        this.realtimeCurrencyExchangeRate = realtimeCurrencyExchangeRate;
-    }
 }

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">StockDemo</string>
+    <string name="app_name">Exchange Rate</string>
+    <string name="watchlist">Watchlist</string>
 </resources>

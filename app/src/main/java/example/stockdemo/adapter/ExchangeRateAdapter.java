@@ -1,4 +1,4 @@
-package example.stockdemo;
+package example.stockdemo.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +11,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import example.stockdemo.ExchangeRateAdapter.ExchangeRateViewHolder;
+import example.stockdemo.ExchangeItem;
+import example.stockdemo.adapter.ExchangeRateAdapter.ExchangeRateViewHolder;
+import example.stockdemo.R;
 
 public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHolder>
 {
@@ -28,9 +30,9 @@ public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHo
     @Override
     public void onBindViewHolder(ExchangeRateViewHolder holder, int position)
     {
-        ExchangeItem stockUpdate = data.get(position);
-        holder.setFromCurrency(stockUpdate.getToCurrency());
-        holder.setToCurrency(stockUpdate.getFromCurrency());
+        ExchangeItem exchangeItem = data.get(position);
+        holder.setCurrencies(exchangeItem.getFromCurrencyCode() + "/" + exchangeItem.getToCurrencyCode());
+        holder.setExchange_rate(exchangeItem.getExchangeRate());
     }
 
     @Override
@@ -47,11 +49,11 @@ public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHo
 
     class ExchangeRateViewHolder extends RecyclerView.ViewHolder
     {
-        @BindView(R.id.from_currency)
-        TextView fromCurrency;
+        @BindView(R.id.currencies)
+        TextView currencies;
 
-        @BindView(R.id.to_currency)
-        TextView toCurrency;
+        @BindView(R.id.exchange_rate)
+        TextView exchange_rate;
 
         public ExchangeRateViewHolder(View itemView)
         {
@@ -59,14 +61,14 @@ public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        public void setFromCurrency(String fromCurrency)
+        public void setCurrencies(String currencies)
         {
-            this.fromCurrency.setText(fromCurrency);
+            this.currencies.setText(currencies);
         }
 
-        public void setToCurrency(String toCurrency)
+        public void setExchange_rate(String exchange_rate)
         {
-            this.toCurrency.setText(toCurrency);
+            this.exchange_rate.setText(exchange_rate);
         }
     }
 }

@@ -11,6 +11,7 @@ import retrofit2.http.Query;
 public interface AlphaVantageService
 {
     @GET("/query")
-    Observable<CurrencyExchangeModel> getExchangeModel(@Query("function") String function, @Query("from_currency") String fromCurrency,
-                                                       @Query("to_currency") String toCurrency, @Query("apikey") String apiKey);
+    Observable<CurrencyExchangeModel> getExchangeModel(
+        @Query("function") String function, @Query("from_currency") String fromCurrency,
+        @Query("to_currency") String toCurrency, @Query("apikey") String apiKey);
 }
