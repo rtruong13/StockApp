@@ -9,7 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Retrofit object built here to create services
+ * Retrofit object built here to convertModelToItem services
  */
 public class RetrofitAlphaVantageServiceFactory
 {

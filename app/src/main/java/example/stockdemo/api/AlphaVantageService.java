@@ -1,8 +1,7 @@
 package example.stockdemo.api;
 
-import example.stockdemo.model.dto.ExchangeModel;
+import example.stockdemo.model.dto.CurrencyExchangeModel;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -12,6 +11,6 @@ import retrofit2.http.Query;
 public interface AlphaVantageService
 {
     @GET("/query")
-    Single<ExchangeModel> getExchangeModel(@Query("function") String function, @Query("from_currency") String fromCurrency,
-                                           @Query("to_currency") String toCurrency, @Query("apikey") String apiKey);
+    Observable<CurrencyExchangeModel> getExchangeModel(@Query("function") String function, @Query("from_currency") String fromCurrency,
+                                                       @Query("to_currency") String toCurrency, @Query("apikey") String apiKey);
 }

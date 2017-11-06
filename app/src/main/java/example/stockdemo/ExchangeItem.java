@@ -1,8 +1,8 @@
 package example.stockdemo;
 
-import java.io.Serializable;
+import example.stockdemo.model.dto.RealTimeCurrencyExchangeRate;
 
-public class ExchangeItem implements Serializable
+public class ExchangeItem
 {
     private final String toCurrency;
     private final String fromCurrency;
@@ -21,5 +21,9 @@ public class ExchangeItem implements Serializable
     public String getFromCurrency()
     {
         return fromCurrency;
+    }
+
+    public static ExchangeItem convertModelToItem(RealTimeCurrencyExchangeRate exchangeModel) {
+        return new ExchangeItem(exchangeModel.getToCurrencyCode(), exchangeModel.getFromCurrencyName());
     }
 }

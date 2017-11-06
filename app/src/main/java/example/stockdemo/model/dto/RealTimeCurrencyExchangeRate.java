@@ -2,9 +2,8 @@ package example.stockdemo.model.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ExchangeModel
+public class RealTimeCurrencyExchangeRate
 {
-
     @SerializedName("1. From_Currency Code")
     private String fromCurrencyCode;
     @SerializedName("2. From_Currency Name")
