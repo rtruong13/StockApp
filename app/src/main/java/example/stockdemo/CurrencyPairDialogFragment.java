@@ -1,15 +1,16 @@
 package example.stockdemo;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.widget.EditText;
 
 public class CurrencyPairDialogFragment extends DialogFragment
 {
+    @SuppressLint("InflateParams")
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
@@ -17,18 +18,14 @@ public class CurrencyPairDialogFragment extends DialogFragment
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         builder.setView(inflater.inflate(R.layout.dialog_currency_pair, null))
-            // Add action buttons
-            .setPositiveButton(R.string.search, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-
-                }
+            .setPositiveButton(R.string.search, (dialog, id) ->
+            {
+                EditText fromCurrency = getDialog().findViewById(R.id.from_currency);
+                EditText toCurrency = getDialog().findViewById(R.id.to_currency);
+                ((RecyclerViewFragment) getTargetFragment()).addExchangeRates(fromCurrency.getText().toString(), toCurrency.getText().toString());
             })
-            .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    CurrencyPairDialogFragment.this.getDialog().cancel();
-                }
-            });
+            .setNegativeButton(R.string.cancel, (dialog, id) -> CurrencyPairDialogFragment.this.getDialog().cancel());
+
         return builder.create();
     }
 }

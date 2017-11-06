@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,7 +72,6 @@ public class ItemDetailsFragment extends Fragment implements OnRefreshListener
         m_exchangeRate.setText(exchangeItem.getExchangeRate());
         m_lastRefresh.setText(exchangeItem.getLastRefreshed());
         m_timeZone.setText(exchangeItem.getTimeZone());
-
     }
 
     @Override

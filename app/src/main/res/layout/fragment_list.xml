@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,6 +13,7 @@
         android:layout_height="match_parent"
         android:background="@color/darkGray"
         tools:context="example.stockdemo.MainActivity">
+        <include layout="@layout/toolbar_layout"></include>
 
         <TextView
             android:id="@+id/watch_list"

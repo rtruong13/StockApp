@@ -17,8 +17,8 @@ import example.stockdemo.R;
 
 public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHolder>
 {
-    private final List<ExchangeItem> m_data = new ArrayList<>();
-    private final OnItemClickListener m_listener;
+    private List<ExchangeItem> m_data = new ArrayList<>();
+    private OnItemClickListener m_listener;
 
     public ExchangeRateAdapter(OnItemClickListener listener)
     {
@@ -81,6 +81,13 @@ public class ExchangeRateAdapter extends RecyclerView.Adapter<ExchangeRateViewHo
         {
             this.exchange_rate.setText(exchange_rate);
         }
+    }
+
+    public void setFilter(ArrayList<ExchangeItem> newList)
+    {
+        m_data = new ArrayList<>();
+        m_data.addAll(newList);
+        notifyDataSetChanged();
     }
 
     public interface OnItemClickListener {

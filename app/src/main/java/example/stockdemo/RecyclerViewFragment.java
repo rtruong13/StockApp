@@ -1,14 +1,13 @@
 package example.stockdemo;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,10 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,11 +34,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RecyclerViewFragment extends Fragment implements OnRefreshListener
+public class RecyclerViewFragment extends Fragment implements OnRefreshListener, SearchView.OnQueryTextListener
 {
-    private static final String PREFS_TAG = "SharedPrefs";
-    private static final String PRODUCT_TAG = "MyProduct";
-
+    @BindView(R.id.toolbar)
+    android.support.v7.widget.Toolbar m_toolbar;
     @BindView(R.id.list_swipe_refresh)
     SwipeRefreshLayout m_swipeRefreshLayout;
     @BindView(R.id.stock_recycler_view)
@@ -60,45 +54,12 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener
         setHasOptionsMenu(true);
         initRecyclerView();
         m_swipeRefreshLayout.setOnRefreshListener(this);
-//        String[] from = getResources().getStringArray(R.array.initial_from_currencies);
-//        String[] to = getResources().getStringArray(R.array.initial_to_currencies);
-//
-//        for (int i = 0; i < from.length; i++)
-//        {
-//            addExchangeRates(from[i], to[i]);
-//        }
 
-        List<CurrencyCodePair> currencyCodePairs = new ArrayList<>();
-        String[] from = getResources().getStringArray(R.array.initial_from_currencies);
-        String[] to = getResources().getStringArray(R.array.initial_to_currencies);
-
-        for (int i = 0; i < from.length; i++)
-        {
-            currencyCodePairs.add(new CurrencyCodePair(from[i], to[i]));
-        }
-        SharedPreferences appSharedPrefs = PreferenceManager
-            .getDefaultSharedPreferences(this.getActivity());
-        Editor prefsEditor = appSharedPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(currencyCodePairs);
-        prefsEditor.putString(Constants.MY_CURRENCY_CODE_PAIRS, json);
-        prefsEditor.apply();
-
-
-        appSharedPrefs = PreferenceManager
-            .getDefaultSharedPreferences(this.getActivity());
-        gson = new Gson();
-        json = appSharedPrefs.getString(Constants.MY_CURRENCY_CODE_PAIRS, "");
-
-        Type type = new TypeToken<List<CurrencyCodePair>>()
-        {
-        }.getType();
-        List<CurrencyCodePair> currencyCodePairs1 = gson.fromJson(json, type);
-
-        for (int i = 0; i < from.length; i++)
-        {
-            addExchangeRates(from[i], to[i]);
-        }
+        addExchangeRates("BTC", "LTC");
+        addExchangeRates("USD", "LTC");
+        addExchangeRates("ETH", "LTC");
+        addExchangeRates("BTC", "ETH");
+        displayStoredExchangeCurrencies(MainActivity.getExchangeItems());
 
         return view;
     }
@@ -108,6 +69,8 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener
     {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_recycler_view, menu);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+        searchView.setOnQueryTextListener(this);
     }
 
     @Override
@@ -116,10 +79,9 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener
         switch (item.getItemId())
         {
             case R.id.menu_add:
-//                Toast.makeText(getActivity(), "Add selected", Toast.LENGTH_SHORT)
-//                    .show();
                 CurrencyPairDialogFragment currencyPairDialog = new CurrencyPairDialogFragment();
-                currencyPairDialog.show(getFragmentManager(), "missiles");
+                currencyPairDialog.setTargetFragment(this, 0);
+                currencyPairDialog.show(getFragmentManager(), "add");
                 break;
 
             default:
@@ -152,7 +114,7 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener
         m_stockRecyclerView.setAdapter(m_exchangeDataAdapter);
     }
 
-    private void addExchangeRates(String from, String to)
+    void addExchangeRates(String from, String to)
     {
         ((MainActivity) getActivity()).getAlphaVantageService()
             .getExchangeModel(Constants.CURRENCY_EXCHANGE_RATE, from, to, Constants.API_KEY)
@@ -184,14 +146,16 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener
                     RealTimeCurrencyExchangeRate currencyExchangeRate = exchangeModel.getRealtimeCurrencyExchangeRate();
                     try
                     {
-                        m_exchangeDataAdapter.add(new ExchangeItem.Builder()
+                        ExchangeItem exchangeItem = new ExchangeItem.Builder()
                             .setExchangeRate(currencyExchangeRate.getExchangeRate())
                             .setCurrencyCodePair(currencyExchangeRate.getFromCurrencyCode(), currencyExchangeRate.getToCurrencyCode())
                             .setFromCurrencyName(currencyExchangeRate.getFromCurrencyName())
                             .setToCurrencyName(currencyExchangeRate.getToCurrencyName())
                             .setLastRefreshed(currencyExchangeRate.getLastRefreshed())
                             .setTimeZone(currencyExchangeRate.getTimeZone())
-                            .build());
+                            .build();
+                        m_exchangeDataAdapter.add(exchangeItem);
+                        MainActivity.addCurrencyCodePair(exchangeItem);
                     }
                     catch (NullPointerException e)
                     {
@@ -213,5 +177,37 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener
     public void onRefresh()
     {
         m_exchangeDataAdapter.notifyDataSetChanged();
+    }
+
+    private void displayStoredExchangeCurrencies(List<ExchangeItem> exchangeItems)
+    {
+        for(ExchangeItem item : exchangeItems)
+        {
+            addExchangeRates(item.getCurrencyCodePair().getFromCurrencyCode(), item.getCurrencyCodePair().getToCurrencyCode());
+        }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s)
+    {
+        s = s.toLowerCase();
+        ArrayList<ExchangeItem> newList = new ArrayList<>();
+        for(ExchangeItem item : MainActivity.getExchangeItems())
+        {
+            String fromCurrency = item.getCurrencyCodePair().getFromCurrencyCode().toLowerCase();
+            if(fromCurrency.contains(s))
+            {
+                newList.add(item);
+            }
+        }
+
+        m_exchangeDataAdapter.setFilter(newList);
+        return true;
     }
 }
