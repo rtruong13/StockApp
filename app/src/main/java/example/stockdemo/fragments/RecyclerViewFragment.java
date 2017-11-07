@@ -100,7 +100,23 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener,
     @Override
     public void onRefresh()
     {
-        m_exchangeDataAdapter.notifyDataSetChanged();
+        try
+        {
+            displayStoredExchangeCurrencies(MainActivity.getExchangeItems());
+            m_exchangeDataAdapter.notifyDataSetChanged();
+        }
+        catch (NullPointerException e)
+        {
+            Log.e("ERROR", e.toString());
+            Toast.makeText(getActivity(), "Unsuccessful API call", Toast.LENGTH_SHORT).show();
+        }
+        finally
+        {
+            if (m_swipeRefreshLayout.isRefreshing())
+            {
+                m_swipeRefreshLayout.setRefreshing(false);
+            }
+        }
     }
 
     @Override
