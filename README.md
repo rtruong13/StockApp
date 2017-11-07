@@ -12,7 +12,7 @@ The task asked that were handled
 1) Demonstrate data retrieval from https://www.alphavantage.co/. 
 Example request https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=LTC&apikey=GJLF3CX2MZ6ATP09
 2) Display some exchange rates in a list contained inside a fragment
-3) Swipe down refresh 
+3) Swipe down refresh in details fragment
 4) Exchange rate retrieval via menu 
 5) Search exchange rate in current list via menu/toolbar
 6) Details view done in separate fragment
