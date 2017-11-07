@@ -35,10 +35,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RecyclerViewFragment extends Fragment implements OnRefreshListener, SearchView.OnQueryTextListener
+public class RecyclerViewFragment extends Fragment implements SearchView.OnQueryTextListener
 {
-    @BindView(R.id.list_swipe_refresh)
-    SwipeRefreshLayout m_swipeRefreshLayout;
     @BindView(R.id.stock_recycler_view)
     RecyclerView m_stockRecyclerView;
 
@@ -52,7 +50,6 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener,
         m_unBinder = ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         initRecyclerView();
-        m_swipeRefreshLayout.setOnRefreshListener(this);
 
         addExchangeRates("BTC", "LTC");
         addExchangeRates("USD", "LTC");
@@ -95,28 +92,6 @@ public class RecyclerViewFragment extends Fragment implements OnRefreshListener,
     {
         super.onDestroyView();
         m_unBinder.unbind();
-    }
-
-    @Override
-    public void onRefresh()
-    {
-        try
-        {
-            displayStoredExchangeCurrencies(MainActivity.getExchangeItems());
-            m_exchangeDataAdapter.notifyDataSetChanged();
-        }
-        catch (NullPointerException e)
-        {
-            Log.e("ERROR", e.toString());
-            Toast.makeText(getActivity(), "Unsuccessful API call", Toast.LENGTH_SHORT).show();
-        }
-        finally
-        {
-            if (m_swipeRefreshLayout.isRefreshing())
-            {
-                m_swipeRefreshLayout.setRefreshing(false);
-            }
-        }
     }
 
     @Override
