@@ -51,10 +51,6 @@ public class RecyclerViewFragment extends Fragment implements SearchView.OnQuery
         setHasOptionsMenu(true);
         initRecyclerView();
 
-        addExchangeRates("BTC", "LTC");
-        addExchangeRates("USD", "LTC");
-        addExchangeRates("ETH", "LTC");
-        addExchangeRates("BTC", "ETH");
         displayStoredExchangeCurrencies(MainActivity.getExchangeItems());
 
         return view;
