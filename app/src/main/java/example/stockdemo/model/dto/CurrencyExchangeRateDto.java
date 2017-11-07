@@ -2,7 +2,7 @@ package example.stockdemo.model.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class RealTimeCurrencyExchangeRate
+public class CurrencyExchangeRateDto
 {
     @SerializedName("1. From_Currency Code")
     private String m_fromCurrencyCode;
@@ -19,73 +19,66 @@ public class RealTimeCurrencyExchangeRate
     @SerializedName("7. Time Zone")
     private String m_timeZone;
 
+    /**
+     * Get the currency code to exchange from
+     * @return Exchanged from currency code
+     */
     public String getFromCurrencyCode()
     {
         return m_fromCurrencyCode;
     }
 
-    public void setFromCurrencyCode(String fromCurrencyCode)
-    {
-        this.m_fromCurrencyCode = fromCurrencyCode;
-    }
-
+    /**
+     * Get the currency name to exchange from
+     * @return Exchanged from currency name
+     */
     public String getFromCurrencyName()
     {
         return m_fromCurrencyName;
     }
 
-    public void setFromCurrencyName(String fromCurrencyName)
-    {
-        this.m_fromCurrencyName = fromCurrencyName;
-    }
-
+    /**
+     * Get the currency code to exchange to
+     * @return Exchanged to currency code
+     */
     public String getToCurrencyCode()
     {
         return m_toCurrencyCode;
     }
 
-    public void setToCurrencyCode(String toCurrencyCode)
-    {
-        this.m_toCurrencyCode = toCurrencyCode;
-    }
-
+    /**
+     * Get the currency name to exchange to
+     * @return Exchanged to currency name
+     */
     public String getToCurrencyName()
     {
         return m_toCurrencyName;
     }
 
-    public void setToCurrencyName(String toCurrencyName)
-    {
-        this.m_toCurrencyName = toCurrencyName;
-    }
-
+    /**
+     * Get the exchange from of the two currencies
+     * @return Exchange rate
+     */
     public String getExchangeRate()
     {
         return m_exchangeRate;
     }
 
-    public void setExchangeRate(String exchangeRate)
-    {
-        this.m_exchangeRate = exchangeRate;
-    }
-
+    /**
+     * Get the last refresh time of request
+     * @return Time of request
+     */
     public String getLastRefreshed()
     {
         return m_lastRefreshed;
     }
 
-    public void setLastRefreshed(String lastRefreshed)
-    {
-        this.m_lastRefreshed = lastRefreshed;
-    }
-
+    /**
+     * Get the time zone of where data was requested
+     * @return Time zone of retrieval
+     */
     public String getTimeZone()
     {
         return m_timeZone;
-    }
-
-    public void setTimeZone(String timeZone)
-    {
-        this.m_timeZone = timeZone;
     }
 }

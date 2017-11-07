@@ -1,4 +1,4 @@
-package example.stockdemo;
+package example.stockdemo.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -8,7 +8,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 
-public class CurrencyPairDialogFragment extends DialogFragment
+import example.stockdemo.R;
+
+public class AddItemDialogFragment extends DialogFragment
 {
     @SuppressLint("InflateParams")
     @Override
@@ -24,7 +26,7 @@ public class CurrencyPairDialogFragment extends DialogFragment
                 EditText toCurrency = getDialog().findViewById(R.id.to_currency);
                 ((RecyclerViewFragment) getTargetFragment()).addExchangeRates(fromCurrency.getText().toString(), toCurrency.getText().toString());
             })
-            .setNegativeButton(R.string.cancel, (dialog, id) -> CurrencyPairDialogFragment.this.getDialog().cancel());
+            .setNegativeButton(R.string.cancel, (dialog, id) -> AddItemDialogFragment.this.getDialog().cancel());
 
         return builder.create();
     }

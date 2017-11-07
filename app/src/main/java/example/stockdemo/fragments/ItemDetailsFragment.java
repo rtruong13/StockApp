@@ -1,4 +1,4 @@
-package example.stockdemo;
+package example.stockdemo.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -16,8 +16,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import example.stockdemo.model.dto.CurrencyExchangeModel;
-import example.stockdemo.model.dto.RealTimeCurrencyExchangeRate;
+import example.stockdemo.model.ExchangeItem;
+import example.stockdemo.MainActivity;
+import example.stockdemo.R;
+import example.stockdemo.model.dto.CurrencyExchangeDto;
+import example.stockdemo.model.dto.CurrencyExchangeRateDto;
 import example.stockdemo.utils.Constants;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -63,17 +66,6 @@ public class ItemDetailsFragment extends Fragment implements OnRefreshListener
         return view;
     }
 
-    private void setTextViews(ExchangeItem exchangeItem)
-    {
-        m_fromCurrencyCode.setText(exchangeItem.getCurrencyCodePair().getFromCurrencyCode());
-        m_fromCurrencyName.setText(exchangeItem.getFromCurrencyName());
-        m_toCurrencyCode.setText(exchangeItem.getCurrencyCodePair().getFromCurrencyCode());
-        m_toCurrencyName.setText(exchangeItem.getToCurrencyName());
-        m_exchangeRate.setText(exchangeItem.getExchangeRate());
-        m_lastRefresh.setText(exchangeItem.getLastRefreshed());
-        m_timeZone.setText(exchangeItem.getTimeZone());
-    }
-
     @Override
     public void onDestroyView()
     {
@@ -88,7 +80,7 @@ public class ItemDetailsFragment extends Fragment implements OnRefreshListener
             m_exchangeItem.getCurrencyCodePair().getFromCurrencyCode(), m_exchangeItem.getCurrencyCodePair().getToCurrencyCode(),
             Constants.API_KEY).subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<CurrencyExchangeModel>()
+            .subscribe(new Observer<CurrencyExchangeDto>()
             {
                 @Override
                 public void onError(Throwable e)
@@ -109,9 +101,9 @@ public class ItemDetailsFragment extends Fragment implements OnRefreshListener
                 }
 
                 @Override
-                public void onNext(CurrencyExchangeModel exchangeModel)
+                public void onNext(CurrencyExchangeDto exchangeModel)
                 {
-                    RealTimeCurrencyExchangeRate currencyExchangeRate = exchangeModel.getRealtimeCurrencyExchangeRate();
+                    CurrencyExchangeRateDto currencyExchangeRate = exchangeModel.getRealtimeCurrencyExchangeRate();
                     try
                     {
                         setTextViews(new ExchangeItem.Builder()
@@ -137,5 +129,16 @@ public class ItemDetailsFragment extends Fragment implements OnRefreshListener
                     }
                 }
             });
+    }
+
+    private void setTextViews(ExchangeItem exchangeItem)
+    {
+        m_fromCurrencyCode.setText(exchangeItem.getCurrencyCodePair().getFromCurrencyCode());
+        m_fromCurrencyName.setText(exchangeItem.getFromCurrencyName());
+        m_toCurrencyCode.setText(exchangeItem.getCurrencyCodePair().getFromCurrencyCode());
+        m_toCurrencyName.setText(exchangeItem.getToCurrencyName());
+        m_exchangeRate.setText(exchangeItem.getExchangeRate());
+        m_lastRefresh.setText(exchangeItem.getLastRefreshed());
+        m_timeZone.setText(exchangeItem.getTimeZone());
     }
 }

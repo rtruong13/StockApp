@@ -13,32 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/standard_margin">
 
-        <!--<TextView-->
-        <!--android:id="@+id/from_currency"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="United States Dollar"/>-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/from_currency_code"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="USD"/>-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/to_currency"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:text="Bitcoin"-->
-        <!--app:layout_constraintRight_toLeftOf="@+id/from_currency_code"/>-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/to_currency_code"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="BTC"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"/>-->
-
         <TextView
             android:id="@+id/currencies"
             android:layout_width="wrap_content"

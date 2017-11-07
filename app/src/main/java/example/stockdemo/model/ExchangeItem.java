@@ -1,16 +1,18 @@
-package example.stockdemo;
+package example.stockdemo.model;
 
 import java.io.Serializable;
 
-import example.stockdemo.model.dto.CurrencyCodePair;
-
+/**
+ * Serializable in order to pass as an argument between fragments
+ */
 public class ExchangeItem implements Serializable
 {
     private final String m_toCurrencyName, m_fromCurrencyName, m_exchangeRate, m_lastRefreshed, m_timeZone;
     private final CurrencyCodePair m_currencyCodePair;
 
-    public ExchangeItem(String toCurrency, String fromCurrency, CurrencyCodePair currencyCodePair,
-                        String exchangeRate, String lastRefreshed, String timeZone)
+    ExchangeItem(
+        String toCurrency, String fromCurrency, CurrencyCodePair currencyCodePair,
+        String exchangeRate, String lastRefreshed, String timeZone)
     {
         this.m_currencyCodePair = currencyCodePair;
         this.m_toCurrencyName = toCurrency;

@@ -9,10 +9,13 @@ import java.util.ArrayList;
 
 import example.stockdemo.api.AlphaVantageService;
 import example.stockdemo.api.RetrofitAlphaVantageServiceFactory;
+import example.stockdemo.fragments.RecyclerViewFragment;
+import example.stockdemo.model.ExchangeItem;
 
 public class MainActivity extends AppCompatActivity
 {
     public static ArrayList<ExchangeItem> m_exchangeItems;
+
     private AlphaVantageService m_alphaVantageService;
 
     @Override
@@ -31,17 +34,29 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    /**
+     * Gets the service to run network calls
+     * @return
+     */
     public AlphaVantageService getAlphaVantageService()
     {
         return m_alphaVantageService;
     }
 
+    /**
+     * Method to retrieve static list of data
+     * @return Static list of data
+     */
     public static ArrayList<ExchangeItem> getExchangeItems()
     {
         return m_exchangeItems;
     }
 
-    public static void addCurrencyCodePair(ExchangeItem exchangeItem)
+    /**
+     * Adds an item to static list
+     * @param exchangeItem Object to add to static list
+     */
+    public static void addExchangeItem(ExchangeItem exchangeItem)
     {
         boolean duplicate = false;
         for (ExchangeItem item : m_exchangeItems)
